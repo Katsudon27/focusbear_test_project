@@ -8,9 +8,10 @@ describe('UsersService', () => {
 
   // create a fake/mock repository
   const mockUserRepository = {
-    find: jest.fn(),
+    find: jest.fn().mockResolvedValue([{ id: 1, name: 'Alice', email: 'alice@gmail.com' }]),
     save: jest.fn(),
-    findOneBy: jest.fn(),
+    findOneBy: jest.fn().mockImplementation((criteria) =>
+      Promise.resolve({ id: criteria.id, name: 'Mock User', email: 'mock@gmail.com' })),
     update: jest.fn(),
     delete: jest.fn(),
     // add other methods your service calls
@@ -27,11 +28,13 @@ describe('UsersService', () => {
     service = module.get<UsersService>(UsersService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('should return all users', async () => {
+    expect(await service.findAll()).toEqual([{ id: 1, name: 'Alice', email: 'alice@gmail.com' }]);
+    expect(mockUserRepository.find).toHaveBeenCalled();
   });
 
-  it('should return greeting message', () => {
-    expect(service.getHello()).toBe('Hello from UsersService!');
+  it('should return a user by id', async () => {
+    expect(await service.findOne(99)).toEqual({ id: 99, name: 'Mock User', email: 'mock@gmail.com' });
+    expect(mockUserRepository.findOneBy).toHaveBeenCalledWith({ id: 99 });
   });
 });

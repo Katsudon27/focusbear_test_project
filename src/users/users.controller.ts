@@ -1,10 +1,8 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, UseInterceptors } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { LoggingInterceptor } from 'src/common/interceptors/logging/logging.interceptor';
 import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('users')
-@UseInterceptors(LoggingInterceptor)
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
