@@ -8,6 +8,8 @@ import { LoggerModule } from 'nestjs-pino';
 import { AdminController } from './admin/admin.controller';
 import * as Joi from 'joi';
 import { RolesGuard } from './roles/roles.guard';
+import { CatsService } from './cats/cats.service';
+import { CatsController } from './cats/cats.controller';
 
 @Module({
   imports: [
@@ -52,7 +54,7 @@ import { RolesGuard } from './roles/roles.guard';
     }),
 
     UsersModule],
-  controllers: [AppController, AdminController],
-  providers: [AppService, RolesGuard],
+  controllers: [AppController, AdminController, CatsController],
+  providers: [AppService, RolesGuard, CatsService],
 })
 export class AppModule {}
