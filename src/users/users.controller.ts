@@ -14,8 +14,6 @@ export class UsersController {
   @Post()
   create(@Body() CreateUserDto: CreateUserDto) {
     this.usersService.createUser(CreateUserDto.name, CreateUserDto.secretEmail);
-    console.log('ENCRYPTION_KEY type:', typeof process.env.ENCRYPTION_KEY);
-    console.log("ENCRYPTION_KEY length:", process.env.ENCRYPTION_KEY?.length);
     return {
       message: 'User created successfully',
       data: CreateUserDto,
