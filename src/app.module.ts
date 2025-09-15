@@ -10,6 +10,8 @@ import * as Joi from 'joi';
 import { RolesGuard } from './roles/roles.guard';
 import { CatsService } from './cats/cats.service';
 import { CatsController } from './cats/cats.controller';
+import { MathService } from './math/math.service';
+import { LoggingInterceptor } from './common/interceptors/logging/logging.interceptor';
 
 @Module({
   imports: [
@@ -55,6 +57,6 @@ import { CatsController } from './cats/cats.controller';
 
     UsersModule],
   controllers: [AppController, AdminController, CatsController],
-  providers: [AppService, RolesGuard, CatsService],
+  providers: [AppService, RolesGuard, CatsService, MathService, LoggingInterceptor],
 })
 export class AppModule {}

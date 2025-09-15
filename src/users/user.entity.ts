@@ -9,6 +9,6 @@ export class User {
   @Column({ length: 50 })
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   secretEmail: string;
 }

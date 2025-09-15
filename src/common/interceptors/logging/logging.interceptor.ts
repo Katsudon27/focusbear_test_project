@@ -1,15 +1,20 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Logger as NestLogger, Inject } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
+import { Logger } from 'nestjs-pino';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
+  constructor(@Inject(Logger) private readonly logger: Logger) {}
+
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const now = Date.now();
     const req = context.switchToHttp().getRequest();
-    console.log(`[Interceptor] Incoming request: ${req.method} ${req.url}`);
+    const method = req.method;
+    const url = req.url;
 
     return next.handle().pipe(
-      tap(() => console.log(`[Interceptor] Response in... ${Date.now() - now}ms`)),
+      tap((data) => {
+        this.logger.log(`${method} ${url} -> ${JSON.stringify(data)}`);
+      }),
     );
   }
 }
